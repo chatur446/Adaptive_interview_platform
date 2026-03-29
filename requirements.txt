@@ -1,0 +1,28 @@
+# Flask core
+Flask==3.0.3
+Flask-SQLAlchemy==3.1.1
+Flask-Login==0.6.3
+
+# Database ORM
+SQLAlchemy==2.0.31
+
+# Password hashing
+Werkzeug==3.0.3
+
+# Environment variables
+python-dotenv==1.0.1
+
+# Logging (built-in with Python, no need to install separately)
+
+# For LLM (Gemini) integration
+google-generativeai==0.5.2
+
+# For GAN service (mock class in your code, so optional placeholder)
+# If you plan real GANs later, you’ll need PyTorch or TensorFlow
+torch==2.3.0
+torchvision==0.18.0
+
+# Utilities
+itsdangerous==2.2.0
+MarkupSafe==2.1.5
+Jinja2==3.1.4

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Interview Prep AI{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-success text-white text-center py-4">
+                <h3 class="mb-0">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Create Account
+                </h3>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" id="registerForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
+                            <i class="fas fa-user me-2"></i>Username
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="username" 
+                               name="username" 
+                               required 
+                               minlength="3"
+                               maxlength="20"
+                               pattern="[a-zA-Z0-9_]+"
+                               autocomplete="username"
+                               placeholder="Choose a username">
+                        <div class="form-text">3-20 characters, letters, numbers, and underscores only</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope me-2"></i>Email Address
+                        </label>
+                        <input type="email" 
+                               class="form-control" 
+                               id="email" 
+                               name="email" 
+                               required 
+                               autocomplete="email"
+                               placeholder="Enter your email address">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock me-2"></i>Password
+                        </label>
+                        <input type="password" 
+                               class="form-control" 
+                               id="password" 
+                               name="password" 
+                               required 
+                               minlength="6"
+                               autocomplete="new-password"
+                               placeholder="Create a secure password">
+                        <div class="form-text">Minimum 6 characters</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="confirmPassword" class="form-label">
+                            <i class="fas fa-lock me-2"></i>Confirm Password
+                        </label>
+                        <input type="password" 
+                               class="form-control" 
+                               id="confirmPassword" 
+                               name="confirmPassword" 
+                               required 
+                               autocomplete="new-password"
+                               placeholder="Confirm your password">
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-user-plus me-2"></i>
+                            Create Account
+                        </button>
+                    </div>
+                </form>
+                
+                <hr class="my-4">
+                
+                <div class="text-center">
+                    <p class="mb-0">Already have an account?</p>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Benefits -->
+        <div class="card mt-4 border-0 bg-light">
+            <div class="card-body text-center">
+                <h6 class="text-dark mb-3">Join Interview Prep AI and get:</h6>
+                <div class="row text-start">
+                    <div class="col-12">
+                        <small class="text-muted">
+                            <i class="fas fa-star text-warning me-2"></i>Unlimited interview practice sessions<br>
+                            <i class="fas fa-star text-warning me-2"></i>AI-powered question generation<br>
+                            <i class="fas fa-star text-warning me-2"></i>Real-time face and speech analysis<br>
+                            <i class="fas fa-star text-warning me-2"></i>Comprehensive performance analytics<br>
+                            <i class="fas fa-star text-warning me-2"></i>Personalized improvement recommendations
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    if (password !== confirmPassword) {
+        e.preventDefault();
+        alert('Passwords do not match!');
+        return false;
+    }
+});
+</script>
+{% endblock %}

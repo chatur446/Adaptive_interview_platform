@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}Interview Results{% endblock %}
+
+{% block content %}
+{% if analytics %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h3>Interview Results</h3>
+            <p>{{ interview.interview_type.title() }} Interview - {{ interview.created_at.strftime('%Y-%m-%d') }}</p>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mb-4">Back to Dashboard</a>
+        </div>
+    </div>
+
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Performance Scores</h5>
+                    <div style="height: 250px;">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    <div class="mt-2">
+                        <small>Overall: {{ "%.0f" | format(analytics.overall_performance * 100) }}% | Technical: {{ "%.0f" | format(analytics.technical_skills_score * 100) }}% | Communication: {{ "%.0f" | format(analytics.communication_skills_score * 100) }}%</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Face Analysis</h5>
+                    <div style="height: 250px;">
+                        <canvas id="faceChart"></canvas>
+                    </div>
+                    <div class="mt-2">
+                        <small>Eye Contact: {{ "%.0f" | format(analytics.eye_contact_percentage * 100) }}% | Expression: {{ "%.0f" | format(analytics.facial_expression_score * 100) }}% | Confidence: {{ "%.0f" | format(analytics.confidence_level * 100) }}%</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Strengths</h5>
+                    <p>{{ analytics.strengths }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Areas for Improvement</h5>
+                    <p>{{ analytics.areas_for_improvement }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% else %}
+<!-- Analytics History -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h3>Analytics History</h3>
+            <p>Track your interview performance over time</p>
+        </div>
+    </div>
+
+    {% if analytics_list %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Overall Score</th>
+                                    <th>Technical Skills</th>
+                                    <th>Communication</th>
+                                    <th>Confidence</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for analytics in analytics_list %}
+                                <tr>
+                                    <td>{{ analytics.interview.created_at.strftime('%Y-%m-%d') }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ 'primary' if analytics.interview.interview_type == 'technical' else 'success' }}">
+                                            {{ analytics.interview.interview_type.title() }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-bold text-{{ 'success' if analytics.overall_performance >= 0.7 else 'warning' if analytics.overall_performance >= 0.5 else 'danger' }}">
+                                            {{ "%.0f" | format(analytics.overall_performance * 100) }}%
+                                        </span>
+                                    </td>
+                                    <td>{{ "%.0f" | format(analytics.technical_skills_score * 100) }}%</td>
+                                    <td>{{ "%.0f" | format(analytics.communication_skills_score * 100) }}%</td>
+                                    <td>{{ "%.0f" | format(analytics.confidence_level * 100) }}%</td>
+                                    <td>
+                                        <a href="{{ url_for('view_analytics', interview_id=analytics.interview_id) }}" 
+                                           class="btn btn-outline-primary btn-sm">
+                                            View Details
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center py-5">
+                <h5>No analytics available yet</h5>
+                <p>Complete some interviews to see your performance analytics.</p>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Start Your First Interview</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+{% if analytics %}
+<script>
+// Performance Scores Chart
+const perfCtx = document.getElementById('performanceChart');
+if (perfCtx) {
+    new Chart(perfCtx.getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['Overall', 'Technical', 'Communication'],
+            datasets: [{
+                data: [
+                    {{ (analytics.overall_performance * 100) | round }},
+                    {{ (analytics.technical_skills_score * 100) | round }},
+                    {{ (analytics.communication_skills_score * 100) | round }}
+                ],
+                backgroundColor: ['#28a745', '#007bff', '#17a2b8'],
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, max: 100 },
+                x: { ticks: { font: { size: 12 } } }
+            },
+            animation: false
+        }
+    });
+}
+
+// Face Analysis Chart
+const faceCtx = document.getElementById('faceChart');
+if (faceCtx) {
+    new Chart(faceCtx.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Eye Contact', 'Expression', 'Confidence', 'Calmness'],
+            datasets: [{
+                data: [
+                    {{ (analytics.eye_contact_percentage * 100) | round }},
+                    {{ (analytics.facial_expression_score * 100) | round }},
+                    {{ (analytics.confidence_level * 100) | round }},
+                    {{ (100 - (analytics.nervousness_indicators * 100)) | round }}
+                ],
+                backgroundColor: ['#28a745', '#ffc107', '#007bff', '#dc3545'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { size: 10 } }
+                }
+            },
+            animation: false
+        }
+    });
+}
+</script>
+{% endif %}
+{% endblock %}

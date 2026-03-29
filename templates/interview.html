@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block title %}Interview Session - Interview Prep AI{% endblock %}
+
+{% block extra_head %}
+<style>
+.video-container {
+    position: relative;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-ring {
+    width: 120px;
+    height: 120px;
+}
+
+.progress-ring-circle {
+    transition: stroke-dasharray 0.3s ease;
+}
+
+.recording-indicator {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.face-analysis-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Interview Progress -->
+    <div class="col-12 mb-4">
+        <div class="card border-0 shadow">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1">
+                            {{ interview.interview_type.title() }} Interview
+                            <span class="badge bg-primary ms-2">Question {{ question_number }}/{{ interview.total_questions }}</span>
+                        </h5>
+                        <p class="text-muted mb-0">Take your time and speak clearly</p>
+                    </div>
+                    <div class="text-end">
+                        <div class="progress" style="width: 200px; height: 8px;">
+                            <div class="progress-bar bg-success" 
+                                 style="width: {{ progress }}%" 
+                                 role="progressbar"></div>
+                        </div>
+                        <small class="text-muted">{{ "%.1f" | format(progress) }}% Complete</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Interview Interface -->
+    <div class="col-lg-8">
+        <!-- Question Card -->
+        <div class="card border-0 shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h6 class="mb-0">
+                    <i class="fas fa-question-circle me-2"></i>
+                    Current Question
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <span class="badge bg-secondary me-2">{{ question.question_type.title() }}</span>
+                    <span class="badge bg-info">{{ question.difficulty_level.title() }}</span>
+                </div>
+                <h5 class="question-text">{{ question.question_text }}</h5>
+            </div>
+        </div>
+        
+        <!-- Video and Recording -->
+        <div class="card border-0 shadow">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">
+                    <i class="fas fa-video me-2"></i>
+                    Video Response
+                </h6>
+                <div>
+                    <span id="recordingStatus" class="badge bg-secondary">Ready</span>
+                    <span id="timer" class="badge bg-dark ms-2">00:00</span>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="video-container position-relative">
+                    <video id="userVideo" 
+                           autoplay 
+                           muted 
+                           playsinline 
+                           style="width: 100%; height: 400px; object-fit: cover;">
+                    </video>
+                    
+                    <!-- Face Analysis Overlay -->
+                    <div id="faceAnalysisOverlay" class="face-analysis-overlay" style="display: none;">
+                        <div><strong>Face Analysis</strong></div>
+                        <div>Confidence: <span id="confidenceScore">--</span>%</div>
+                        <div>Eye Contact: <span id="eyeContactStatus">--</span></div>
+                        <div>Expression: <span id="expressionStatus">--</span></div>
+                    </div>
+                    
+                    <!-- Recording Indicator -->
+                    <div id="recordingIndicator" 
+                         class="position-absolute top-0 start-0 m-3 recording-indicator" 
+                         style="display: none;">
+                        <i class="fas fa-circle text-danger"></i>
+                        <span class="text-white ms-2 fw-bold">RECORDING</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-center gap-3">
+                    <button id="startRecordingBtn" class="btn btn-success">
+                        <i class="fas fa-play me-2"></i>Start Recording
+                    </button>
+                    <button id="stopRecordingBtn" class="btn btn-danger" disabled>
+                        <i class="fas fa-stop me-2"></i>Stop Recording
+                    </button>
+                    <button id="submitAnswerBtn" class="btn btn-primary" disabled>
+                        <i class="fas fa-paper-plane me-2"></i>Submit Answer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Response Guidelines -->
+        <div class="card border-0 shadow mb-4">
+            <div class="card-header bg-info text-white">
+                <h6 class="mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    Response Tips
+                </h6>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Maintain good eye contact with the camera
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Speak clearly and at a moderate pace
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Structure your answer with examples
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Stay calm and confident
+                    </li>
+                    <li class="mb-0">
+                        <i class="fas fa-check text-success me-2"></i>
+                        Take time to think before answering
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Audio Level Indicator -->
+        <div class="card border-0 shadow mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h6 class="mb-0">
+                    <i class="fas fa-microphone me-2"></i>
+                    Audio Level
+                </h6>
+            </div>
+            <div class="card-body text-center">
+                <div class="progress mb-2" style="height: 20px;">
+                    <div id="audioLevelBar" 
+                         class="progress-bar bg-success" 
+                         style="width: 0%" 
+                         role="progressbar"></div>
+                </div>
+                <small class="text-muted">Speak to test your microphone</small>
+            </div>
+        </div>
+        
+        <!-- Real-time Analysis -->
+        <div class="card border-0 shadow">
+            <div class="card-header bg-secondary text-white">
+                <h6 class="mb-0">
+                    <i class="fas fa-chart-pulse me-2"></i>
+                    Live Analysis
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label small">Confidence Level</label>
+                    <div class="progress" style="height: 8px;">
+                        <div id="liveConfidence" 
+                             class="progress-bar bg-info" 
+                             style="width: 50%" 
+                             role="progressbar"></div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label small">Speech Clarity</label>
+                    <div class="progress" style="height: 8px;">
+                        <div id="speechClarity" 
+                             class="progress-bar bg-success" 
+                             style="width: 60%" 
+                             role="progressbar"></div>
+                    </div>
+                </div>
+                
+                <div class="mb-0">
+                    <label class="form-label small">Engagement</label>
+                    <div class="progress" style="height: 8px;">
+                        <div id="engagementLevel" 
+                             class="progress-bar bg-warning" 
+                             style="width: 70%" 
+                             role="progressbar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="processingModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center py-4">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5>Processing Your Response...</h5>
+                <p class="text-muted mb-0">Our AI is analyzing your answer and providing feedback.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/interview.js') }}"></script>
+<script src="{{ url_for('static', filename='js/face-detection.js') }}"></script>
+<script>
+// Initialize interview session
+const interviewSession = new InterviewSession({
+    questionId: {{ question.id }},
+    interviewId: {{ interview.id }},
+    questionNumber: {{ question_number }},
+    totalQuestions: {{ interview.total_questions }}
+});
+
+interviewSession.initialize();
+</script>
+{% endblock %}

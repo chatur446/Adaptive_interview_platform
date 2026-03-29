@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>Dashboard - {{ current_user.username }}</h2>
+        <p>Welcome to your interview practice dashboard.</p>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card border-0 shadow h-100">
+            <div class="card-body text-center">
+                <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 60px; height: 60px;">
+                    <i class="fas fa-interview text-white fs-4"></i>
+                </div>
+                <h3 class="text-primary">{{ total_interviews }}</h3>
+                <p class="text-muted mb-0">Total Interviews</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card border-0 shadow h-100">
+            <div class="card-body text-center">
+                <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 60px; height: 60px;">
+                    <i class="fas fa-check-circle text-white fs-4"></i>
+                </div>
+                <h3 class="text-success">{{ completed_interviews }}</h3>
+                <p class="text-muted mb-0">Completed</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+        <div class="card stat-card border-0 shadow h-100">
+            <div class="card-body text-center">
+                <div class="bg-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                     style="width: 60px; height: 60px;">
+                    <i class="fas fa-chart-line text-white fs-4"></i>
+                </div>
+                <h3 class="text-info">{{ "%.1f" | format(avg_performance * 100) }}%</h3>
+                <p class="text-muted mb-0">Avg Performance</p>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Start New Interview -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-play-circle me-2"></i>
+                    Start New Interview
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('start_interview') }}">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="interview_type" class="form-label">Interview Type</label>
+                            <select class="form-select" id="interview_type" name="interview_type" required>
+                                <option value="">Choose interview type...</option>
+                                <option value="technical">Technical Interview</option>
+                                <option value="non-technical">Non-Technical Interview</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="difficulty" class="form-label">Difficulty Level</label>
+                            <select class="form-select" id="difficulty" name="difficulty">
+                                <option value="easy">Easy</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-success w-100">
+                                <i class="fas fa-rocket me-2"></i>
+                                Start Interview
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="alert alert-info d-flex align-items-center" role="alert">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <div>
+                                    <strong>Tips:</strong> Make sure your camera and microphone are working properly. 
+                                    Find a quiet environment with good lighting for the best analysis results.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Interviews -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-history me-2"></i>
+                    Recent Interviews
+                </h5>
+                <a href="{{ url_for('analytics_history') }}" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-chart-bar me-1"></i>View All Analytics
+                </a>
+            </div>
+            <div class="card-body">
+                {% if recent_interviews %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Questions</th>
+                                    <th>Score</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for interview in recent_interviews %}
+                                <tr>
+                                    <td>{{ interview.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ 'primary' if interview.interview_type == 'technical' else 'success' }}">
+                                            {{ interview.interview_type.title() }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if interview.status == 'completed' %}
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check me-1"></i>Completed
+                                            </span>
+                                        {% elif interview.status == 'in_progress' %}
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-clock me-1"></i>In Progress
+                                            </span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">
+                                                <i class="fas fa-times me-1"></i>Cancelled
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ interview.questions_answered }}/{{ interview.total_questions }}</td>
+                                    <td>
+                                        {% if interview.overall_score %}
+                                            <span class="fw-bold text-{{ 'success' if interview.overall_score >= 0.7 else 'warning' if interview.overall_score >= 0.5 else 'danger' }}">
+                                                {{ "%.1f" | format(interview.overall_score * 100) }}%
+                                            </span>
+                                        {% else %}
+                                            <span class="text-muted">N/A</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if interview.status == 'completed' %}
+                                            <a href="{{ url_for('view_analytics', interview_id=interview.id) }}" 
+                                               class="btn btn-outline-info btn-sm">
+                                                <i class="fas fa-chart-line me-1"></i>View Analytics
+                                            </a>
+                                        {% elif interview.status == 'in_progress' %}
+                                            <a href="{{ url_for('interview_session', interview_id=interview.id) }}" 
+                                               class="btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-play me-1"></i>Continue
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <img src="https://pixabay.com/get/gabf96b3cfe06c7c5dc270acbffdd946b4a03d38080c9db0dd4f8ae4ae65005f7193a02fac474a5901bd9de0e4bff4b7ed89a6e948d2d59637633cdf6ec555a69_1280.jpg" 
+                             alt="No interviews yet" 
+                             class="mb-3 rounded" 
+                             style="width: 200px; height: 150px; object-fit: cover;">
+                        <h5 class="text-muted">No interviews yet</h5>
+                        <p class="text-muted">Start your first interview to begin tracking your progress.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Interview Practice App{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Interview Practice App</h1>
+            <p>A simple app to help you practice job interviews using AI technology.</p>
+        
+            <ul>
+                <li>AI generates different questions each time</li>
+                <li>Record your answers with webcam</li>
+                <li>Get feedback on your performance</li>
+                <li>View your interview history</li>
+            </ul>
+        
+            {% if not current_user.is_authenticated %}
+            <p>
+                <a href="{{ url_for('register') }}" class="btn btn-primary">Register</a>
+                <a href="{{ url_for('login') }}" class="btn btn-secondary">Login</a>
+            </p>
+            {% else %}
+            <p>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+            </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <h2>Features</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">AI Questions</div>
+                    <div class="card-body">
+                        <p>The system uses AI to create different interview questions for practice.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Video Recording</div>
+                    <div class="card-body">
+                        <p>Record yourself answering questions to practice your interview skills.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Performance Analytics</div>
+                    <div class="card-body">
+                        <p>See how well you did and get tips to improve your interview performance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 30px;">
+    <div class="col-12">
+        <h3>Interview Types</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Technical Interviews</div>
+                    <div class="card-body">
+                        <p>Practice coding problems, algorithms, and technical questions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">General Interviews</div>
+                    <div class="card-body">
+                        <p>Practice common interview questions about yourself and your experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if not current_user.is_authenticated %}
+<div class="row" style="margin-top: 40px; text-align: center;">
+    <div class="col-12">
+        <h3>Get Started</h3>
+        <p>Create an account to start practicing interviews.</p>
+        <a href="{{ url_for('register') }}" class="btn btn-primary">Sign Up Now</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

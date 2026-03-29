@@ -1,0 +1,553 @@
+/* Basic CSS for Interview Practice App */
+/* Simple styling for college project */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #212529 !important;
+}
+
+/* Make all text darker and more readable */
+h1, h2, h3, h4, h5, h6 {
+    color: #212529 !important;
+    font-weight: bold;
+}
+
+p, span, div, li, td, th, label, a {
+    color: #212529 !important;
+}
+
+/* Specific overrides for common elements */
+.btn {
+    font-weight: bold;
+}
+
+.form-label {
+    color: #212529 !important;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Input group styling */
+.input-group-text {
+    background-color: #e9ecef;
+    color: #212529 !important;
+    border: 1px solid #ccc;
+}
+
+/* Button styling for forms */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white !important;
+    font-weight: bold;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white !important;
+    font-weight: bold;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white !important;
+    font-weight: bold;
+}
+
+.list-group-item {
+    color: #212529 !important;
+    background-color: #ffffff;
+}
+
+/* Analytics and dashboard specific */
+.metric-value {
+    color: #212529 !important;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.timeline-content {
+    color: #212529 !important;
+}
+
+/* Interview results and feedback */
+.feedback-text {
+    color: #212529 !important;
+}
+
+.score-text {
+    color: #212529 !important;
+    font-weight: bold;
+}
+
+/* Form validation states */
+.is-valid {
+    border-color: #28a745 !important;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.valid-feedback {
+    color: #28a745 !important;
+    font-weight: bold;
+}
+
+.invalid-feedback {
+    color: #dc3545 !important;
+    font-weight: bold;
+}
+
+/* Ensure all form text is visible */
+.form-text {
+    color: #6c757d !important;
+}
+
+/* Radio buttons and checkboxes */
+.form-check-label {
+    color: #212529 !important;
+}
+
+.form-check-input {
+    background-color: white;
+    border-color: #ccc;
+}
+
+.form-check-input:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff !important;
+}
+
+.navbar-dark .navbar-brand {
+    color: #ffffff !important;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.card {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+}
+
+.card-header {
+    background-color: #e9ecef;
+    font-weight: bold;
+    padding: 15px;
+    color: #212529 !important;
+}
+
+.card-body {
+    background-color: #ffffff;
+    color: #212529 !important;
+}
+
+.card-title {
+    color: #212529 !important;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #212529 !important;
+}
+
+.btn {
+    padding: 8px 16px;
+    margin: 5px;
+}
+
+.video-container {
+    background-color: #333;
+    padding: 10px;
+    min-height: 400px;
+    text-align: center;
+}
+
+.face-analysis-overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff !important;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.recording-indicator {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.progress {
+    height: 20px;
+    background-color: #e9ecef;
+    border: 1px solid #ccc;
+}
+
+.progress-bar {
+    background-color: #007bff;
+}
+
+.metric-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.score-circle {
+    border: 2px solid #007bff;
+    border-radius: 50%;
+    padding: 10px;
+    text-align: center;
+    display: inline-block;
+}
+
+.strength-area {
+    background-color: #d4edda;
+    padding: 10px;
+    border: 1px solid #c3e6cb;
+    margin: 10px 0;
+}
+
+.improvement-area {
+    background-color: #fff3cd;
+    padding: 10px;
+    border: 1px solid #ffeaa7;
+    margin: 10px 0;
+}
+
+.chart-container {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.question-card {
+    background-color: #e7f1ff;
+    border: 1px solid #b8daff;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.question-text {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #212529 !important;
+}
+
+.audio-level-container {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.audio-level-bar {
+    background-color: #28a745;
+    height: 20px;
+}
+
+.live-analysis-container {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.analysis-bar {
+    height: 15px;
+    background-color: #007bff;
+    margin: 5px 0;
+}
+
+.tips-container {
+    background-color: #d1ecf1;
+    border: 1px solid #bee5eb;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.tip-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.tip-item:last-child {
+    border-bottom: none;
+}
+
+.toast {
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+.timeline-container {
+    padding-left: 30px;
+}
+
+.timeline-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+.profile-image {
+    border: 2px solid #007bff;
+    border-radius: 5px;
+}
+
+.quick-action-card {
+    cursor: pointer;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-icon {
+    font-size: 24px;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    margin: 10px;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid #ccc;
+    background-color: white;
+    padding: 8px;
+    margin: 5px 0;
+    color: #212529 !important;
+    font-weight: normal;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: white;
+    color: #212529 !important;
+}
+
+/* Dropdown options styling */
+.form-select option {
+    background-color: white !important;
+    color: #212529 !important;
+    padding: 8px;
+    font-weight: normal;
+}
+
+/* Placeholder styling */
+.form-control::placeholder {
+    color: #6c757d !important;
+    opacity: 1;
+    font-weight: normal;
+}
+
+.form-select:invalid {
+    color: #6c757d !important;
+}
+
+/* When dropdown is opened */
+select {
+    background-color: white !important;
+    color: #212529 !important;
+}
+
+select option {
+    background-color: white !important;
+    color: #212529 !important;
+    padding: 10px;
+}
+
+select option:checked {
+    background-color: #007bff !important;
+    color: white !important;
+}
+
+select option:hover {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+}
+
+.alert {
+    border: 1px solid;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724 !important;
+    font-weight: bold;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24 !important;
+    font-weight: bold;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeaa7;
+    color: #856404 !important;
+    font-weight: bold;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460 !important;
+    font-weight: bold;
+}
+
+/* Simple responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .card {
+        margin: 10px 0;
+    }
+    
+    .btn {
+        display: block;
+        margin: 10px 0;
+        width: 100%;
+    }
+}
+
+/* Basic table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #ffffff;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    color: #212529 !important;
+    background-color: #ffffff;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #212529 !important;
+}
+
+/* Bootstrap table overrides */
+.table {
+    color: #212529 !important;
+    background-color: #ffffff;
+}
+
+.table th {
+    color: #212529 !important;
+    background-color: #f8f9fa;
+    font-weight: bold;
+    border-color: #dee2e6;
+}
+
+.table td {
+    color: #212529 !important;
+    background-color: #ffffff;
+    border-color: #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa;
+    color: #212529 !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) td {
+    color: #212529 !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #e9ecef;
+    color: #212529 !important;
+}
+
+.table-hover tbody tr:hover td {
+    color: #212529 !important;
+}
+
+/* Simple footer */
+.footer {
+    background-color: #343a40;
+    color: white !important;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+.footer * {
+    color: white !important;
+}
+
+.footer p {
+    color: white !important;
+    margin: 0;
+}
+
+.footer a {
+    color: #ffffff !important;
+    text-decoration: underline;
+}
+
+.footer a:hover {
+    color: #f8f9fa !important;
+}
+
+/* Fix any footer content that might be dark */
+.bg-dark,
+.bg-primary {
+    color: white !important;
+}
+
+.bg-dark *,
+.bg-primary * {
+    color: white !important;
+}
+
+/* Navbar footer or any dark backgrounds */
+.navbar-dark {
+    background-color: #343a40 !important;
+}
+
+.navbar-dark * {
+    color: white !important;
+}
