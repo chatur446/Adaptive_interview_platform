@@ -26,7 +26,7 @@ WebSockets (real-time communication)
 
 Frontend:
 
-HTML, CSS, JavaScript
+HTML, CSS, python
 
 AI Components:
 
